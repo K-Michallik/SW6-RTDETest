@@ -1,0 +1,18 @@
+FROM i386/python:3.10-alpine
+
+COPY simple-socket/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+ENV APP_NAME rtde-native
+
+# create the directory where the app will run
+WORKDIR /usr/local/src/${APP_NAME}
+
+COPY simple-socket/rtde_package/ /usr/local/src/${APP_NAME}/rtde_package/
+COPY simple-socket/rtdeControlLoop.py /usr/local/src/${APP_NAME}/rtdeControlLoop.py
+COPY simple-socket/control_loop_configuration.xml /usr/local/src/${APP_NAME}/control_loop_configuration.xml
+
+# set rtdeControlLoop.py as the entrypoint
+ENTRYPOINT ["python", "rtdeControlLoop.py"]
+
+# EXPOSE 55556
