@@ -8,11 +8,16 @@ ENV APP_NAME rtde-native
 # create the directory where the app will run
 WORKDIR /usr/local/src/${APP_NAME}
 
-COPY simple-socket/rtde_package/ /usr/local/src/${APP_NAME}/rtde_package/
-COPY simple-socket/rtdeControlLoop.py /usr/local/src/${APP_NAME}/rtdeControlLoop.py
-COPY simple-socket/control_loop_configuration.xml /usr/local/src/${APP_NAME}/control_loop_configuration.xml
+# COPY simple-socket/rtde_package/ /usr/local/src/${APP_NAME}/rtde_package/
+# COPY simple-socket/rtdeControlLoop.py /usr/local/src/${APP_NAME}/rtdeControlLoop.py
+# COPY simple-socket/control_loop_configuration.xml /usr/local/src/${APP_NAME}/control_loop_configuration.xml
+COPY simple-socket /usr/local/src/${APP_NAME}/
+
+# Make the start.sh script executable
+RUN chmod +x /usr/local/src/${APP_NAME}/start.sh
 
 # set rtdeControlLoop.py as the entrypoint
-ENTRYPOINT ["python", "rtdeControlLoop.py"]
+# ENTRYPOINT ["python", "rtdeControlLoop.py"]
+ENTRYPOINT ["/usr/local/src/rtde-native/start.sh"]
 
 # EXPOSE 55556
